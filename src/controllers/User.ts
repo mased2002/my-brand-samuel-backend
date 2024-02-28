@@ -2,8 +2,7 @@ import UserModel from "../models/User";
 import { Request, Response, NextFunction } from "express";
 import { CREATED, OK, INTERNAL_SERVER_ERROR, NOT_FOUND } from "http-status";
 import { StatusCodes } from "http-status-codes";
-import { Hash } from "crypto";
-import bcrypt, { hash } from "bcrypt";
+import * as bcrypt from "bcrypt"
 class UserControler{
     async createUser(req: Request, res: Response){
         try {
@@ -47,6 +46,40 @@ class UserControler{
             return res  
                 .status(OK)
                 .json({userDeleted, message: "user deleted successfully"})
+        } catch (error: unknown) {
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(error)
+        }
+    }
+    async loginUser(req: Request, res: Response){
+        try {
+            const { email, password } = req.body 
+
+
+            const user = await UserModel.findOne({ email })
+
+            if(email !== user?.email){
+                return res.status(404).json({message: "user email not found"})
+            }
+           
+            if(!user){
+                return res.status(404).json({message: "User not Found"})
+            }
+
+            if(!user.password){
+                return res
+                    .status(404)
+                    .json({message: "user does not contain password"})
+            }else{
+                console.log(user.password)
+            }
+
+            // const passwordMatch = await bcrypt.compare(password, )
+
+            return res
+                .status(OK)
+                .json({user, message: "this is the user that logged in"})
         } catch (error: unknown) {
             return res
                 .status(INTERNAL_SERVER_ERROR)
