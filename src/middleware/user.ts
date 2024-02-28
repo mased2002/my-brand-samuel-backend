@@ -38,6 +38,6 @@ export  function validateLogin(req: Request, res: Response, next: NextFunction){
     next();
 }
 
-export function isLoggedIn(){
+// export function isLoggedIn(){
     
-}
+// }
