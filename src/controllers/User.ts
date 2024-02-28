@@ -2,12 +2,14 @@ import UserModel from "../models/User";
 import { Request, Response, NextFunction } from "express";
 import { CREATED, OK, INTERNAL_SERVER_ERROR, NOT_FOUND } from "http-status";
 import { StatusCodes } from "http-status-codes";
-
+import { Hash } from "crypto";
+import bcrypt, { hash } from "bcrypt";
 class UserControler{
     async createUser(req: Request, res: Response){
         try {
             const {name, email, password, username} = req.body
-            const user = await UserModel.create({...req.body})
+            const hashedPass = await bcrypt.hash(password, 10)
+            const user = await UserModel.create({...req.body, password: hashedPass})
 
             return res
                 .status(CREATED)
