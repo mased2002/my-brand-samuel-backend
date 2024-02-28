@@ -3,9 +3,6 @@ import Joi, { ValidationResult } from "joi";
 import * as jwt  from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 
-export function isLoggedIn(){
-    
-}
 
 const registerSchema = Joi.object({
     name: Joi.string().min(3).required(),
@@ -39,4 +36,8 @@ export  function validateLogin(req: Request, res: Response, next: NextFunction){
     // if error is not there
 
     next();
+}
+
+export function isLoggedIn(){
+    
 }
