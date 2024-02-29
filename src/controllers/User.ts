@@ -80,10 +80,13 @@ class UserControler{
                         .json({message: "password doesn't match"})
                 }else{
                     const token = createToken(user)
+                    req.headers.authorization = token + " samuel is EEEEEEEEEEE"
+                    console.log(req.headers.authorization)
+                    const sam = req.headers.authorization.split(" ")[1]
 
                     return res
                         .status(OK)
-                        .json({message: "password is a match and you are LoggedIn", token})
+                        .json({message: "password is a match and you are LoggedIn", token, sam})
                 }
             
 
