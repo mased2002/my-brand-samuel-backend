@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import { CREATED, OK, INTERNAL_SERVER_ERROR, NOT_FOUND } from "http-status";
 import { StatusCodes } from "http-status-codes";
 import * as bcrypt from "bcrypt"
-import createToken from "../middleware/auth";
+import { createToken } from "../middleware/auth";
 class UserControler{
     async createUser(req: Request, res: Response){
         try {
@@ -80,13 +80,13 @@ class UserControler{
                         .json({message: "password doesn't match"})
                 }else{
                     const token = createToken(user)
-                    req.headers.authorization = token + " samuel is EEEEEEEEEEE"
-                    console.log(req.headers.authorization)
-                    const sam = req.headers.authorization.split(" ")[1]
+                    // req.headers.authorization = token + " samuel is EEEEEEEEEEE"
+                    // console.log(req.headers.authorization)
+                    // const sam = req.headers.authorization.split(" ")[1]
 
                     return res
                         .status(OK)
-                        .json({message: "password is a match and you are LoggedIn", token, sam})
+                        .json({message: "password is a match and you are LoggedIn", token})
                 }
             
 
