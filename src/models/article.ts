@@ -7,7 +7,6 @@ const articleSchema = new Schema({
     author: {type: String, required: true},
     image: {type: String, required: true},
     Content: {type: String, required: true},
-    createdAt: {type: Date, default: Date.now().toLocaleString()},
 },
 {
     timestamps: true,

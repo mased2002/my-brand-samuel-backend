@@ -1,4 +1,4 @@
-import { string } from "joi";
+import { number, string } from "joi";
 import { NextFunction } from "express";
 import { InferSchemaType, Schema, model } from "mongoose";
 import mongoose from "mongoose";
@@ -21,6 +21,10 @@ const userSchema = new Schema({
     },
     username: {
         type: String,
+    },
+    role:{
+        type: Number,
+        default: 1124
     }
 })
 

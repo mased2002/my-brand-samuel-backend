@@ -6,11 +6,11 @@ import { CREATED, OK, INTERNAL_SERVER_ERROR } from "http-status";
 class ProjectController{
     async createProject(req: Request, res: Response) {
         try {
-            const {ProjectTitle, ProjectDesciription, projectImg, ProjectTechnologies} = req.body
+            const {ProjectTitle, ProjectDesciription, projectImg, ProjectTechnologies, projectLink, projectCodeLink} = req.body
             const newProject = await ProjectModel.create({...req.body})
 
             return res
-                .status(OK)
+                .status(CREATED)
                 .json({newProject, message:"this is the message"})
         } catch (error: unknown) {
             return res
@@ -48,7 +48,7 @@ class ProjectController{
     async updateProject(req: Request, res: Response){
         try {
             const { id } = req.params
-            const project = await ProjectModel.findByIdAndUpdate(id)
+            const project = await ProjectModel.findByIdAndUpdate(id, {...req.body})
 
             return res
                 .status(OK)
@@ -57,6 +57,20 @@ class ProjectController{
             return res
                 .status(INTERNAL_SERVER_ERROR)
                 .json({error: (error as Error).message})
+        }
+    }
+    async deleteProject(req: Request, res: Response){
+        try {
+            const { id } = req.params
+            const projectDelete = await ProjectModel.findByIdAndDelete(id)
+
+            return res
+                .status(OK)
+                .json({projectDelete, message: "article deleted successfully"})
+        } catch (error: unknown) {
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json({error: (error as Error).message, message: "something wrong with deleting the project"})
         }
     }
 }

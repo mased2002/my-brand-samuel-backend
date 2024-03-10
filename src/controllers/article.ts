@@ -2,22 +2,31 @@
 import ArticleModel from "../models/article";
 import { Request, Response, NextFunction, request } from "express";
 import { StatusCodes } from "http-status-codes";
-import { CREATED, OK, INTERNAL_SERVER_ERROR } from "http-status";
+import { CREATED, OK, INTERNAL_SERVER_ERROR, NOT_FOUND } from "http-status";
+import mongoose from "mongoose";
 
 
 class ArticleController{
     async createArticle(req: Request, res: Response){
         try {
         const {title, description, author, image, Content} = req.body;
-        const newArticle = (await ArticleModel.create({...req.body}))
+        const newArticle = await ArticleModel.create({...req.body})
+            return res
+            .status(CREATED)
+            .json({newArticle, message: "article created"  })
+        // const articles = await ArticleModel.findOne(title)
+        // if(articles){
+        //     return res.status(409).json({message: "article with that title already exists"})
+        // }else{
+            
+        // }
+       
         
-        return res
-        .status(CREATED)
-        .json({newArticle, message: "this is actually working"  })
+       
     }catch (error: unknown){
         return res
         .status(INTERNAL_SERVER_ERROR)
-        .json({error: (error as Error).message})
+        .json({error: (error as Error).message, message: "this is the message"})
     }
     }
     async getAllArticles(req: Request, res: Response){
@@ -44,7 +53,7 @@ class ArticleController{
         } catch (error) {
             return res
             .status(INTERNAL_SERVER_ERROR)
-            .json({error: (error as Error).message})
+            .json({error: (error as Error).message, message: "article doesnt exist"})
         }
     }
     async updateArticle(req: Request, res: Response){
@@ -65,11 +74,15 @@ class ArticleController{
     async DeleteArticle(req: Request, res: Response){
         try{
             const {id} = req.params;
+            // check if id exists
+            if (!mongoose.Types.ObjectId.isValid(id)) {
+                return res.status(403).json({ error: "Invalid article ID" });
+            }
 
             // check if article exits
             const articleToDelete = await ArticleModel.findById(id)
             if(!articleToDelete){
-                return res.status(StatusCodes.NOT_FOUND).json({error: "article not found sorry"})
+                return res.status(403).json({error: "article not found sorry"})
             }
 
             await ArticleModel.findByIdAndDelete(id)

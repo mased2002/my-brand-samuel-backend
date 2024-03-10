@@ -5,7 +5,8 @@ import CommentModel from "../models/comments";
 const commentSchema = Joi.object({
     name: Joi.string().required(),
     content: Joi.string().required(),
-    approved: Joi.boolean().required()
+    onBlog: Joi.string().required(),
+    approved: Joi.boolean()
 })
 
 const updateComentSchema = Joi.object({
@@ -18,7 +19,7 @@ function validateComment(req: Request, res: Response, next: NextFunction){
     const validationResult: ValidationResult = commentSchema.validate(req.body)
 
     if(validationResult.error){
-        return res.status(400).json({error: validationResult.error.details[0].message})
+        return res.status(400).json({error: validationResult.error.details[0].message, message: "missing field in comment"})
     }
     // if error is not there
 

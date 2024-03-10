@@ -17,6 +17,15 @@ const projectSchema = new Schema({
     projectTechs:{
         type: Array,
         required: true
+    },
+    projectLink:{
+        type: String,
+        required: true,
+        unique: true
+    },
+    projectCodeLink:{
+        type: String,
+        required: true
     }
 },
 {

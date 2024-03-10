@@ -41,7 +41,7 @@ class MessageController{
             .json({Message, message: `the message that was caught`})
         } catch (error: unknown) {
             return res
-            .status(INTERNAL_SERVER_ERROR)
+            .status(404)
             .json({error: (error as Error).message})
         }
     }

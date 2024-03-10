@@ -1,12 +1,14 @@
 import { Router } from "express";
 import { userControl } from "../controllers/User";
 import { validateLogin } from "../middleware/user";
-import { isLoggedIn } from "../middleware/auth";
+import { validateRegistiration } from "../middleware/user";
+import { isLoggedIn, isAdmin } from "../middleware/auth";
 const userRoute = Router()
 
-userRoute.post("/signup", userControl.createUser);
-userRoute.get("/getAll", isLoggedIn,userControl.getAllUsers);
+userRoute.post("/signup", validateRegistiration, userControl.createUser);
+userRoute.get("/getall", isLoggedIn,userControl.getAllUsers);
 userRoute.post("/login", validateLogin,userControl.loginUser);
-userRoute.delete("/:email/delete", isLoggedIn,userControl.deleteUser);
+userRoute.patch("/:id", isAdmin, userControl.updateUserRoles)
+userRoute.delete("/:email", isLoggedIn,userControl.deleteUser);
 
 export default userRoute;

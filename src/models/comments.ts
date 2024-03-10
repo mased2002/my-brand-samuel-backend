@@ -10,10 +10,14 @@ const commentSchema = new Schema({
         type: String,
         required: true
     },
+    onBlog:{
+        type: String,
+        required: true
+    },
     approved:{
         type: Boolean,
         default: false
-    },
+    }
 },
 {
     timestamps: true

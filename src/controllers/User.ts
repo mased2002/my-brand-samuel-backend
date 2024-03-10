@@ -3,17 +3,24 @@ import { Request, Response, NextFunction } from "express";
 import { CREATED, OK, INTERNAL_SERVER_ERROR, NOT_FOUND } from "http-status";
 import { StatusCodes } from "http-status-codes";
 import * as bcrypt from "bcrypt"
-import { createToken } from "../middleware/auth";
+import { createToken, isAdmin } from "../middleware/auth";
 class UserControler{
     async createUser(req: Request, res: Response){
         try {
             const {name, email, password, username} = req.body
             const hashedPass = await bcrypt.hash(password, 10)
-            const user = await UserModel.create({...req.body, password: hashedPass})
+            const existingEmail = await UserModel.findOne({email})
+            if(existingEmail){
+                return res
+                    .status(404)
+                    .json({message: "seems user already exist"})
+            } else{
+                const user = await UserModel.create({...req.body, password: hashedPass})
 
-            return res
-                .status(CREATED)
-                .json(user)
+                return res
+                    .status(CREATED)
+                    .json({user, message: "user created successfuly"})
+        }
         } catch (error: unknown) {
             return res
                 .status(INTERNAL_SERVER_ERROR)
@@ -22,15 +29,59 @@ class UserControler{
     }
     async getAllUsers(req: Request, res: Response){
         try {
-            const users = await UserModel.find({})
+            console.log("users is working")
+            const users = await UserModel.find({});
 
             return res
                 .status(OK)
                 .json({users, message: "these are all the users"})
         } catch (error: unknown) {
+            console.log("users dead")
             return res 
                 .status(INTERNAL_SERVER_ERROR)
-                .json(error)
+                .json({error: (error as Error).message, message: "something wrong with getting users"})
+        }
+    }
+    async getOneUser(req: Request, res: Response){
+        try {
+            const { id } = req.params 
+            const user = await UserModel.findOne({ id })
+            return res
+                .status(200)
+                .json({user, message: "user found"})
+
+        } catch (error) {
+            return res
+                .status(404)
+                .json({message: "couldn't find user"})
+        }
+    }
+    async updateUserRoles(req: Request, res: Response){
+        try {
+            const { id } = req.params
+            const user = await UserModel.findById( id )
+            if(!user){
+                return res.status(404).json({mesage: "oops user not found"})
+            }else{
+                user.role = 2203
+                await user.save();
+                // const Admin = isAdmin(user)
+                // if(Admin == "is admin"){
+                //     return res.status(200).json({message: "user is already admin"})
+                // }else{
+                //     const {role} = req.body
+                //     const userUpdate = await UserModel.findByIdAndUpdate(id, {...req.body})
+                //     return res
+                //         .status(OK)
+                //         .json({user, message: "role made admin" })
+                // }
+                return res.status(200).json({user, message: "user updated to admin"})
+            }
+
+        } catch (error: any) {
+            return res.
+            status(500)
+            .json({error:(error as Error).message, message: "id must be objectid or something else is wrong"})
         }
     }
     async deleteUser(req: Request, res: Response){
@@ -59,14 +110,15 @@ class UserControler{
 
 
             const user = await UserModel.findOne({ email })
-
-            if(email !== user?.email){
-                return res.status(404).json({message: "user email not found"})
-            }
-           
             if(!user){
                 return res.status(404).json({message: "User not Found"})
             }
+
+            // if(email !== user.email){
+            //     return res.status(404).json({message: "user email not found"})
+            // }
+           
+
 
             if(!user.password){
                 return res

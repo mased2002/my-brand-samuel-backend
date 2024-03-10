@@ -9,12 +9,12 @@ import { Err } from "joi";
 class CommentController{
     async createComment(req: Request, res: Response){
         try {
-            const {name, content} = req.body;
+            const {name, content, onBlog} = req.body;
             const newComment = await CommentModel.create({...req.body})
 
             return res
             .status(CREATED)
-            .json({newComment, message: "message created"})
+            .json({newComment, message: "comment created"})
         } catch (error: unknown) {
             return res
             .status(INTERNAL_SERVER_ERROR)
@@ -27,7 +27,7 @@ class CommentController{
 
             return res
             .status(OK)
-            .json({comments, message: "these are all the messages"})
+            .json({comments, message: "these are all the comments"})
         } catch (error: unknown) {
             return res
             .status(INTERNAL_SERVER_ERROR)
@@ -56,11 +56,11 @@ class CommentController{
 
             return res
                 .status(OK)
-                .json({updateComment, message: "this the comments came from the update"})
+                .json({updateComment, message: "comment apporved"})
         } catch (error: unknown) {
             return res
                 .status(INTERNAL_SERVER_ERROR)
-                .json({error: (error as Error).message})
+                .json({error: (error as Error).message, message: "comment doesn't exist"})
         }
     }
     async deleteComment(req: Request, res: Response){
@@ -70,7 +70,7 @@ class CommentController{
             if (deletedComment){
                 return res
                     .status(OK)
-                    .json({message: "the deleted message", deletedComment})
+                    .json({message: "comment successfuly deleted", deletedComment})
             }else{
                 return res
                     .status(404).json({message: "message not found or invalid id"})

@@ -4,9 +4,10 @@ import { validateComment, validateUpdateComment } from "../middleware/comments";
 import { isLoggedIn } from "../middleware/auth";
 const commentRoute = Router()
 
-commentRoute.post("/create", commentControl.createComment)
+commentRoute.post("/create", validateComment, commentControl.createComment)
 commentRoute.get("/getAll", commentControl.getAllComments),
 // commentRoute.get("/approved", commentControl.getCommentApproved)
-commentRoute.post("/:id/update", isLoggedIn, commentControl.updateComment)
+commentRoute.patch("/:id", isLoggedIn, commentControl.updateComment)
+commentRoute.delete("/:id", isLoggedIn, commentControl.deleteComment)
 
 export default commentRoute;

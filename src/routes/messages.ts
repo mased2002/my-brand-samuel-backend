@@ -5,9 +5,9 @@ import { isLoggedIn } from "../middleware/auth";
 
 const messageRoute = Router();
 
-messageRoute.post("/create", validateMessage,messageControl.createMessage)
-messageRoute.get("/getAll", messageControl.getAllMessages)
-messageRoute.get("/:id", messageControl.getOneMessage)
-messageRoute.post("/:id/delete", isLoggedIn,messageControl.deleteMessage)
+messageRoute.post("/create", isLoggedIn, validateMessage,messageControl.createMessage)
+messageRoute.get("/getAll", isLoggedIn, messageControl.getAllMessages)
+messageRoute.get("/:id", isLoggedIn, messageControl.getOneMessage)
+messageRoute.delete("/:id", isLoggedIn,messageControl.deleteMessage)
 
 export default messageRoute;
