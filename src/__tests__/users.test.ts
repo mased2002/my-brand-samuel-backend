@@ -5,12 +5,13 @@ import app from '../app'
 import UserModel from '../models/User'
 import { NOT_FOUND, OK } from 'http-status'
 const userInfo = {
-    name: "test user samuel",
-    email: "really@gmail.com",
+    name: "test user",
+    email: "klaus@gmail.com",
     password: "faith123!Q"
 }
 describe("user routes", () => {
     let loginToken : string;
+    let adminToken : string;
     describe("signup route", () => {
         it("should create the user when you signup", async() => {
             const user = await request(app).post('/api/users/signup').send(userInfo)
@@ -44,6 +45,15 @@ describe("user routes", () => {
             expect(user.status).toBe(OK)
             expect(user.body.message).toEqual("password is a match and you are LoggedIn")
         })
+        it("should signin successfuly an admin", async () => {
+            const adminUser = await request(app).post(`/api/users/login`).send({
+                email : "polly@peakyblinders.com",
+                password : "peakyFooking123!"
+            })
+            adminToken = adminUser.body.token
+            expect(adminUser.status).toBe(OK)
+            expect(adminUser.body.message).toEqual("password is a match and you are LoggedIn")
+        })
         it("should fail if email doesn't match any", async () => {
             const user = await request(app).post('/api/users/login').send({
                 email: 'takemoney2pac@gmail.com',
@@ -68,10 +78,31 @@ describe("user routes", () => {
             expect(getAllUsers.body.message).toEqual("these are all the users")
         })
     })
+    describe("get one user", () => {
+        it("should get one user", async ()=> {
+            const id = "65edd23c50ad2e066d821bda"
+            const getOneUser = await request(app).get(`/api/users/${id}`).set({Authorization: `Bearer ${loginToken}`})
+            expect(getOneUser.status).toBe(200)
+            expect(getOneUser.body.message).toEqual("user found")
+        })
+    })
+    describe("update one user", () => {
+        it("should update all users", async () => {
+            const id = "65ee0fadb53ed56cc1bbc309"
+            const updateUser = await request(app).patch(`/api/users/${id}`).set({Authorization: `Bearer ${adminToken}`})
+            expect(updateUser.status).toBe(200)
+            expect(updateUser.body.message).toEqual("user updated to admin")
+        })
+        it("should fail if the user is not admin", async () => {
+            const id = "65ee0fadb53ed56cc1bbc309"
+            const updateUser = await request(app).patch(`/api/users/${id}`).set({Authorization: `Bearer ${loginToken}`})
+            expect(updateUser.status).toBe(403)
+        })
+    })
     describe("delete user", () => {
-        it("should delete id user", async () => {
-            const id = "65df07c9e724c5a062de9467"
-            const deleteUser = await request(app).delete(`/api/users/${id}`).set({Authorization: `Bearer ${loginToken}`})
+        it("should delete email user", async () => {
+            const email = "human@big.green"
+            const deleteUser = await request(app).delete(`/api/users/${email}`).set({Authorization: `Bearer ${loginToken}`})
             expect(deleteUser.status).toBe(200)
             expect(deleteUser.body.message).toEqual("user deleted successfully")
         })
