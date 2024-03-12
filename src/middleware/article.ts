@@ -6,7 +6,7 @@ const articleSchema = Joi.object({
     title: Joi.string().required(),
     description: Joi.string().required(),
     author: Joi.string().required(),
-    image: Joi.string().required(),
+    image: Joi.string(),
     Content: Joi.string().required(),
 });
 
@@ -18,6 +18,11 @@ function validateArticle(req: Request, res: Response, next: NextFunction){
         return res.status(400).json({error: validationResult.error.details[0].message, message: "might have missed a field or your fields are not strings"})
     }
 
+    // if(!req.file){
+    //     return res.status(400).json({message: "nofile was provided"})
+    // }else{
+
+    // }
     // if the error is not there 
     next();
 }
