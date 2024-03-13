@@ -132,9 +132,6 @@ class UserControler{
                         .json({message: "password doesn't match"})
                 }else{
                     const token = createToken(user)
-                    // req.headers.authorization = token + " samuel is EEEEEEEEEEE"
-                    // console.log(req.headers.authorization)
-                    // const sam = req.headers.authorization.split(" ")[1]
 
                     return res
                         .status(OK)
@@ -142,7 +139,6 @@ class UserControler{
                 }
             
 
-            // const passwordMatch = await bcrypt.compare(password, )
 
             return res
                 .status(OK)
