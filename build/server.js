@@ -16,7 +16,7 @@ const MONGODB_URI = process.env.MONGODB_URI;
 mongoose_1.default
     .connect(MONGODB_URI)
     .then(() => {
-    const PORT = 8000;
+    const PORT = 8080;
     app_1.default.listen(PORT, () => {
         console.log(`server is correctly running on port: ${PORT}`);
     });

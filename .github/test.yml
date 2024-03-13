@@ -1,0 +1,13 @@
+name: code testing
+
+on:
+  push: 
+   branches: 
+      - ft-testing-endpoints
+  pull_request:
+    branches:
+      - ft-testing-endpoints
+
+jobs:
+  tests:
+    name: 
