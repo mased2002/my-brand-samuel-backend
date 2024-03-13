@@ -4,10 +4,11 @@ import { articleControl } from './controllers/article';
 import { CREATED, OK } from "http-status";
 import ArticleModel from './models/article';
 import routes from './routes';
+import cors from 'cors'
 
 const app: Application = express();
 app.use(express.json());
-
+app.use(cors())
 
 
 app.get("/", (req: Request, res: Response) => {
