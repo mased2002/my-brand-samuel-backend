@@ -176,14 +176,10 @@ class UserControler {
                 }
                 else {
                     const token = (0, auth_1.createToken)(user);
-                    // req.headers.authorization = token + " samuel is EEEEEEEEEEE"
-                    // console.log(req.headers.authorization)
-                    // const sam = req.headers.authorization.split(" ")[1]
                     return res
                         .status(http_status_1.OK)
                         .json({ message: "password is a match and you are LoggedIn", token });
                 }
-                // const passwordMatch = await bcrypt.compare(password, )
                 return res
                     .status(http_status_1.OK)
                     .json({ user, message: "this is the user that logged in" });
