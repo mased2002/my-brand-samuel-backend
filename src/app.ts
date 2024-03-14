@@ -4,16 +4,18 @@ import { articleControl } from './controllers/article';
 import { CREATED, OK } from "http-status";
 import ArticleModel from './models/article';
 import routes from './routes';
-import cors from 'cors'
+import cors, { CorsOptions } from 'cors';
+import bodyParser from 'body-parser';
 
 const app: Application = express();
 
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors({
     origin: '*',
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
 }));
-app.use(express.json());
+
 
 
 
