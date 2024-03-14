@@ -12,7 +12,7 @@ const app: Application = express();
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors({
-    // origin: '*',
+    origin: '*',
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
 }));
 
