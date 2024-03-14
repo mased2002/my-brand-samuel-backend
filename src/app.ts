@@ -8,7 +8,11 @@ import cors from 'cors'
 
 const app: Application = express();
 
-app.use(cors());
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
 
 
