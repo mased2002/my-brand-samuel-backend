@@ -4,7 +4,7 @@ import { articleControl } from './controllers/article';
 import { CREATED, OK } from "http-status";
 import ArticleModel from './models/article';
 import routes from './routes';
-import cors, { CorsOptions } from 'cors';
+const cors = require('cors')
 import bodyParser from 'body-parser';
 
 const app: Application = express();
@@ -12,7 +12,7 @@ const app: Application = express();
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors({
-    origin: '*',
+    // origin: '*',
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
 }));
 
