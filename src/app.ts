@@ -14,12 +14,21 @@ const app: Application = express();
 // app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
-app.use(cors({
+const corsOpts = {
     origin: '*',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true // Allow credentials (e.g., cookies)
-}));
+    methods: [
+    'GET',
+    'POST',
+    'DELETE',
+    'PATCH',
+    'PUT'
+    ],
+    allowedHeaders: [
+    'Content-Type',
+    'Authorization',
+    ],
+    };
+app.use(cors(corsOpts));
 app.use(morgan('dev'));
 // app.use(express.urlencoded({extended: true}));
 
