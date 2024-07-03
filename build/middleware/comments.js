@@ -3,7 +3,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateUpdateComment = exports.validateComment = void 0;
+exports.validateComment = validateComment;
+exports.validateUpdateComment = validateUpdateComment;
 const joi_1 = __importDefault(require("joi"));
 const commentSchema = joi_1.default.object({
     name: joi_1.default.string().required(),
@@ -24,7 +25,6 @@ function validateComment(req, res, next) {
     // if error is not there
     next();
 }
-exports.validateComment = validateComment;
 function validateUpdateComment(req, res, next) {
     const validationResult = updateComentSchema.validate(req.body);
     if (validationResult.error) {
@@ -33,4 +33,3 @@ function validateUpdateComment(req, res, next) {
     // if error is not there
     next();
 }
-exports.validateUpdateComment = validateUpdateComment;

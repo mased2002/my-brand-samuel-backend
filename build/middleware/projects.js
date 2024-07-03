@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateProject = void 0;
+exports.validateProject = validateProject;
 const joi_1 = __importDefault(require("joi"));
 const projectSchema = joi_1.default.object({
     projectTitle: joi_1.default.string().required(),
@@ -27,4 +27,3 @@ function validateProject(req, res, next) {
     // if error is not there
     next();
 }
-exports.validateProject = validateProject;
