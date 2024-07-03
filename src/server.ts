@@ -23,7 +23,7 @@ mongoose
     .connect(MONGODB_URI)
     .then(() => {
         console.log(MONGODB_URI)
-        const PORT = 8080;
+        const PORT = 80;
         app.listen(PORT, () => {
             console.log(`server is correctly running on port: ${PORT}`)
         });
