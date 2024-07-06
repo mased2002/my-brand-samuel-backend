@@ -11,13 +11,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = __importDefault(require("./app"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const mongoose_1 = __importDefault(require("mongoose"));
+console.log("starting server.......>>>>");
 dotenv_1.default.config();
-const MONGODB_URI = process.env.MONGODB_TEST_STRING;
-console.log("this is the string:" + MONGODB_URI);
+const MONGODB_URI = process.env.MONGODB_URI;
+if (!MONGODB_URI) {
+    console.error("MONGODB_URI not defined in .env file");
+    process.exit(1);
+}
+console.log("Attempting to connect to MongoDB with URI:", MONGODB_URI);
 mongoose_1.default
     .connect(MONGODB_URI)
     .then(() => {
-    const PORT = 8080;
+    console.log(MONGODB_URI);
+    const PORT = process.env.PORT || 8080;
     app_1.default.listen(PORT, () => {
         console.log(`server is correctly running on port: ${PORT}`);
     });
