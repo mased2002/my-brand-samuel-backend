@@ -3,8 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateRegistiration = validateRegistiration;
-exports.validateLogin = validateLogin;
+exports.validateLogin = exports.validateRegistiration = void 0;
 const joi_1 = __importDefault(require("joi"));
 const registerSchema = joi_1.default.object({
     name: joi_1.default.string().min(3).required(),
@@ -25,6 +24,7 @@ function validateRegistiration(req, res, next) {
     // if error is not there
     next();
 }
+exports.validateRegistiration = validateRegistiration;
 function validateLogin(req, res, next) {
     const validationResult = loginSchema.validate(req.body);
     if (validationResult.error) {
@@ -33,3 +33,4 @@ function validateLogin(req, res, next) {
     // if error is not there
     next();
 }
+exports.validateLogin = validateLogin;
