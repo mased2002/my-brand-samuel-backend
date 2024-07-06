@@ -12,7 +12,8 @@ const app_1 = __importDefault(require("./app"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const mongoose_1 = __importDefault(require("mongoose"));
 dotenv_1.default.config();
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = process.env.MONGODB_TEST_STRING;
+console.log("this is the string:" + MONGODB_URI);
 mongoose_1.default
     .connect(MONGODB_URI)
     .then(() => {
