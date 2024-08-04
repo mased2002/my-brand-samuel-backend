@@ -12,7 +12,7 @@ import mongoose from "mongoose";
 console.log("starting server.......>>>>")
 dotenv.config();
 
-const MONGODB_URI = process.env.MONGODB_URI as string;
+const MONGODB_URI = process.env.MONGODB_TEST_STRING as string;
 if (!MONGODB_URI) {
     console.error("MONGODB_URI not defined in .env file");
     process.exit(1);

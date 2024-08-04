@@ -13,7 +13,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const mongoose_1 = __importDefault(require("mongoose"));
 console.log("starting server.......>>>>");
 dotenv_1.default.config();
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = process.env.MONGODB_TEST_STRING;
 if (!MONGODB_URI) {
     console.error("MONGODB_URI not defined in .env file");
     process.exit(1);
