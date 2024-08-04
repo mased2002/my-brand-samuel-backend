@@ -26,7 +26,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isAdmin = exports.isLoggedIn = exports.createToken = void 0;
+exports.createToken = createToken;
+exports.isLoggedIn = isLoggedIn;
+exports.isAdmin = isAdmin;
 const jwt = __importStar(require("jsonwebtoken"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
@@ -40,7 +42,6 @@ const JWT_SECRET = process.env.JWT_SECRET_KEY;
 function createToken(user) {
     return jwt.sign({ _id: user._id, role: user.role }, JWT_SECRET, { expiresIn: "30d" });
 }
-exports.createToken = createToken;
 function isLoggedIn(req, res, next) {
     // const token = req.headers.authorization?.split(' ')[1];
     let token = req.headers.authorization;
@@ -62,7 +63,6 @@ function isLoggedIn(req, res, next) {
         next();
     });
 }
-exports.isLoggedIn = isLoggedIn;
 // export function isAdmin(req: Request, res: Response, next: NextFunction){
 //     let token: string = req.headers.authorization as string
 //     if(toke
@@ -94,7 +94,6 @@ function isAdmin(req, res, next) {
         // Attach user role to the decoded object
     });
 }
-exports.isAdmin = isAdmin;
 // export function makeAdmin(req: Request, res: Response, next: NextFunction){
 //     const user = 
 // }

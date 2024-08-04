@@ -187,7 +187,7 @@ class UserControler {
             catch (error) {
                 return res
                     .status(http_status_1.INTERNAL_SERVER_ERROR)
-                    .json(error);
+                    .json({ error, message: "this is in the catch" });
             }
         });
     }
