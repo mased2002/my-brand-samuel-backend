@@ -126,12 +126,14 @@ class UserControler{
                     .json({message: "user does not contain password"})
             }
                 const passwordMatch = await bcrypt.compare(password, user.password)
+                console.log("this is the password match", passwordMatch)
                 if(!passwordMatch){
                     return res
                         .status(404)
                         .json({message: "password doesn't match"})
                 }else{
                     const token = createToken(user)
+                    console.log("this is the token crated", token)
 
                     return res
                         .status(OK)

@@ -169,6 +169,7 @@ class UserControler {
                         .json({ message: "user does not contain password" });
                 }
                 const passwordMatch = yield bcrypt.compare(password, user.password);
+                console.log("this is the password match", passwordMatch);
                 if (!passwordMatch) {
                     return res
                         .status(404)
@@ -176,6 +177,7 @@ class UserControler {
                 }
                 else {
                     const token = (0, auth_1.createToken)(user);
+                    console.log("this is the token crated", token);
                     return res
                         .status(http_status_1.OK)
                         .json({ message: "password is a match and you are LoggedIn", token });
