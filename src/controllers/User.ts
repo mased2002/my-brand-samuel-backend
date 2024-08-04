@@ -146,7 +146,7 @@ class UserControler{
         } catch (error: unknown) {
             return res
                 .status(INTERNAL_SERVER_ERROR)
-                .json(error)
+                .json({error, message: "this is in the catch"})
         }
     }
 }
