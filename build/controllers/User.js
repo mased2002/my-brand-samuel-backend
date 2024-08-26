@@ -176,6 +176,8 @@ class UserControler {
                         .json({ message: "password doesn't match" });
                 }
                 else {
+                    console.log("we in it right??");
+                    console.log("this is the user", user);
                     const token = (0, auth_1.createToken)(user);
                     console.log("this is the token crated", token);
                     return res

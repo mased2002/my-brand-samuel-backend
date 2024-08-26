@@ -11,9 +11,16 @@ const routes = {
 }
 // import UserModel from "../models/User";
 const JWT_SECRET = process.env.JWT_SECRET_KEY as string
+console.log("", JWT_SECRET)
 
 export function createToken(user: any){
-    return jwt.sign({_id: user._id, role: user.role}, JWT_SECRET, {expiresIn: "30d"})
+    console.log("this is runnig")
+    console.log("JWT_SECRET:", JWT_SECRET)
+    console.log("USER_ROLE:", user.role)
+
+    const token =  jwt.sign({_id: user._id, role: user.role}, JWT_SECRET, {expiresIn: "30d"})
+    console.log("this is the token", token)
+    return token;
 }
 
 export function isLoggedIn(req: Request, res: Response, next: NextFunction){

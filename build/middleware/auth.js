@@ -39,8 +39,14 @@ const routes = {
 };
 // import UserModel from "../models/User";
 const JWT_SECRET = process.env.JWT_SECRET_KEY;
+console.log("", JWT_SECRET);
 function createToken(user) {
-    return jwt.sign({ _id: user._id, role: user.role }, JWT_SECRET, { expiresIn: "30d" });
+    console.log("this is runnig");
+    console.log("JWT_SECRET:", JWT_SECRET);
+    console.log("USER_ROLE:", user.role);
+    const token = jwt.sign({ _id: user._id, role: user.role }, JWT_SECRET, { expiresIn: "30d" });
+    console.log("this is the token", token);
+    return token;
 }
 function isLoggedIn(req, res, next) {
     // const token = req.headers.authorization?.split(' ')[1];

@@ -132,6 +132,8 @@ class UserControler{
                         .status(404)
                         .json({message: "password doesn't match"})
                 }else{
+                    console.log("we in it right??")
+                    console.log("this is the user", user)
                     const token = createToken(user)
                     console.log("this is the token crated", token)
 
